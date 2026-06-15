@@ -2,11 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
     <title>KOFAK GLOBAL LIMITED – Roofing & Building Solutions</title>
     <meta
       name="description"
-      content="KOFAK GLOBAL LIMITED, based in Kumasi, is a leading supplier of stone coated metal tiles, self-lock roofing sheets, and IBR roofing. Quality roofing solutions for modern construction."
+      content="KOFAK GLOBAL LIMITED, based in Kumasi, is a leading supplier of stone coated metal tiles, self-lock roofing sheets, and IBR roofing."
     />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,7 +56,6 @@
         font-size: 11px;
         color: var(--ink-dim);
       }
-
       .grain::after {
         content: "";
         position: fixed;
@@ -64,7 +66,6 @@
         mix-blend-mode: overlay;
         background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
       }
-
       .nav-link {
         position: relative;
         padding: 6px 0;
@@ -88,7 +89,6 @@
       .nav-link:hover::after {
         width: 100%;
       }
-
       .hero {
         position: relative;
         min-height: 100vh;
@@ -105,6 +105,7 @@
         filter: brightness(0.8) saturate(1.05);
         transform: scale(1.02);
       }
+      /* Updated gradient – much darker at bottom for text readability */
       .hero-grad {
         position: absolute;
         inset: 0;
@@ -117,8 +118,8 @@
           linear-gradient(
             to bottom,
             rgba(11, 11, 12, 0.1) 0%,
-            rgba(11, 11, 12, 0.3) 50%,
-            rgba(11, 11, 12, 0.8) 100%
+            rgba(11, 11, 12, 0.5) 40%,
+            rgba(11, 11, 12, 0.92) 100%
           );
       }
       .hero-title {
@@ -127,11 +128,27 @@
         font-size: clamp(3.2rem, 11vw, 11rem);
         line-height: 0.92;
         letter-spacing: -0.04em;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
       }
       .hero-title em {
         font-style: italic;
         font-weight: 400;
         color: var(--accent);
+      }
+      /* Glass card for description */
+      .hero-text-card {
+        background: rgba(11, 11, 12, 0.65);
+        backdrop-filter: blur(8px);
+        border-radius: 24px;
+        padding: 1.2rem 1.6rem;
+        border: 1px solid rgba(245, 243, 238, 0.15);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      }
+      .hero-description {
+        color: #f5f3ee;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        font-weight: 400;
+        line-height: 1.5;
       }
       .marquee {
         display: flex;
@@ -159,7 +176,6 @@
           transform: translateX(-50%);
         }
       }
-
       .btn {
         display: inline-flex;
         align-items: center;
@@ -188,7 +204,6 @@
         border-color: #fff;
         transform: translateY(-2px);
       }
-
       .section {
         padding: 8rem 0;
       }
@@ -204,7 +219,6 @@
         border-radius: 999px;
         background: var(--accent);
       }
-
       .gallery-grid {
         display: grid;
         grid-template-columns: repeat(12, 1fr);
@@ -294,7 +308,6 @@
         opacity: 0.85;
         mix-blend-mode: difference;
       }
-
       .span-3 {
         grid-column: span 3;
       }
@@ -341,7 +354,6 @@
       .ar-wide {
         aspect-ratio: 21/9;
       }
-
       .chip {
         padding: 0.55rem 1.1rem;
         border-radius: 999px;
@@ -349,6 +361,7 @@
         color: var(--ink-dim);
         transition: all 0.2s ease;
         font-size: 0.875rem;
+        cursor: pointer;
       }
       .chip:hover {
         color: var(--ink);
@@ -359,7 +372,6 @@
         color: var(--bg);
         border-color: var(--ink);
       }
-
       .stat-num {
         font-family: "Fraunces", serif;
         font-weight: 300;
@@ -371,7 +383,6 @@
         font-style: italic;
         color: var(--accent);
       }
-
       .about-img {
         position: relative;
         border-radius: 24px;
@@ -383,7 +394,6 @@
         height: 100%;
         object-fit: cover;
       }
-
       .lb {
         display: none;
         position: fixed;
@@ -423,7 +433,6 @@
         background: var(--accent);
         border-color: var(--accent);
       }
-
       .reveal {
         opacity: 0;
         transform: translateY(28px);
@@ -433,7 +442,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-
       footer {
         background: #060607;
         border-top: 1px solid var(--line);
@@ -453,6 +461,20 @@
         color: var(--ink);
         border-color: var(--ink);
         transform: translateY(-3px);
+      }
+      .spinner {
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+        margin: 2rem auto;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
@@ -482,9 +504,9 @@
           <a class="nav-link" href="#services">Products</a>
           <a class="nav-link" href="#contact">Contact</a>
         </div>
-        <a href="#contact" class="btn text-sm">
-          Get a quote <i class="fa-solid fa-arrow-right text-xs"></i>
-        </a>
+        <a href="#contact" class="btn text-sm"
+          >Get a quote <i class="fa-solid fa-arrow-right text-xs"></i
+        ></a>
       </nav>
     </header>
 
@@ -500,8 +522,8 @@
       >
         <div class="flex items-center justify-between mb-8">
           <div class="mono-tag flex items-center gap-3">
-            <span class="w-8 h-px bg-[var(--ink-dim)]"></span>
-            KOFAK GLOBAL LIMITED · Kumasi
+            <span class="w-8 h-px bg-[var(--ink-dim)]"></span> KOFAK GLOBAL
+            LIMITED · Kumasi
           </div>
           <div class="hidden md:block mono-tag">Est. 2018</div>
         </div>
@@ -511,14 +533,20 @@
         <div
           class="mt-10 flex flex-col md:flex-row md:items-end md:justify-between gap-8"
         >
-          <p class="max-w-md text-[var(--ink-dim)] text-lg leading-relaxed">
-            Stone Coated Metal Tiles, Self‑Lock, IBR – premium roofing sheets
-            for residential, commercial and industrial projects across Ghana.
-          </p>
+          <!-- Improved readability: glass card + better text contrast -->
+          <div class="max-w-md">
+            <div class="hero-text-card">
+              <p class="hero-description text-lg leading-relaxed">
+                Stone Coated Metal Tiles, Self‑Lock, IBR – premium roofing
+                sheets for residential, commercial and industrial projects
+                across Ghana.
+              </p>
+            </div>
+          </div>
           <div class="flex items-center gap-3">
-            <a href="#gallery" class="btn btn-primary">
-              View our work <i class="fa-solid fa-arrow-down text-xs"></i>
-            </a>
+            <a href="#gallery" class="btn btn-primary"
+              >View our work <i class="fa-solid fa-arrow-down text-xs"></i
+            ></a>
             <a href="#contact" class="btn">Call now</a>
           </div>
         </div>
@@ -534,22 +562,20 @@
             <i class="fa-solid fa-asterisk"></i> Long Span
             <i class="fa-solid fa-asterisk"></i> Affordable Roofing
             <i class="fa-solid fa-asterisk"></i> Accra · Kumasi
-            <i class="fa-solid fa-asterisk"></i>
-          </span>
-          <span
+            <i class="fa-solid fa-asterisk"></i></span
+          ><span
             >Stone Coated Metal Tiles
             <i class="fa-solid fa-asterisk"></i> Self‑Lock
             <i class="fa-solid fa-asterisk"></i> IBR
             <i class="fa-solid fa-asterisk"></i> Long Span
             <i class="fa-solid fa-asterisk"></i> Affordable Roofing
             <i class="fa-solid fa-asterisk"></i> Accra · Kumasi
-            <i class="fa-solid fa-asterisk"></i>
-          </span>
+            <i class="fa-solid fa-asterisk"></i
+          ></span>
         </div>
       </div>
     </section>
 
-    <!-- GALLERY (dynamic from media-list.json) -->
     <section id="gallery" class="section">
       <div class="max-w-[1400px] mx-auto px-6 md:px-10">
         <div
@@ -572,8 +598,22 @@
             <button class="chip" data-filter="video">Videos</button>
           </div>
         </div>
-
-        <div id="galleryGrid" class="gallery-grid reveal"></div>
+        <div id="galleryLoading" class="flex flex-col items-center py-16">
+          <div class="spinner"></div>
+          <p class="text-[var(--ink-dim)] text-sm mt-2">
+            Loading roofing projects...
+          </p>
+        </div>
+        <div id="galleryGrid" class="gallery-grid hidden"></div>
+        <div id="galleryError" class="hidden text-center py-16">
+          <p class="text-red-400 mb-4">
+            ⚠️ Failed to load gallery. Check your internet connection or
+            manifest file.
+          </p>
+          <button id="retryBtn" class="btn btn-primary">
+            Retry <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -649,8 +689,8 @@
             class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
           >
             <div class="flex items-start justify-between mb-8">
-              <span class="mono-tag">01 / Premium</span>
-              <i class="fa-solid fa-trowel text-2xl text-[var(--accent)]"></i>
+              <span class="mono-tag">01 / Premium</span
+              ><i class="fa-solid fa-trowel text-2xl text-[var(--accent)]"></i>
             </div>
             <h3 class="serif text-3xl mb-3">Stone Coated Metal Tiles</h3>
             <p class="text-[var(--ink-dim)]">
@@ -662,8 +702,8 @@
             class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
           >
             <div class="flex items-start justify-between mb-8">
-              <span class="mono-tag">02 / Interlocking</span>
-              <i
+              <span class="mono-tag">02 / Interlocking</span
+              ><i
                 class="fa-solid fa-puzzle-piece text-2xl text-[var(--accent)]"
               ></i>
             </div>
@@ -677,8 +717,8 @@
             class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
           >
             <div class="flex items-start justify-between mb-8">
-              <span class="mono-tag">03 / IBR</span>
-              <i
+              <span class="mono-tag">03 / IBR</span
+              ><i
                 class="fa-solid fa-chart-simple text-2xl text-[var(--accent)]"
               ></i>
             </div>
@@ -692,8 +732,8 @@
             class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
           >
             <div class="flex items-start justify-between mb-8">
-              <span class="mono-tag">04 / Service</span>
-              <i
+              <span class="mono-tag">04 / Service</span
+              ><i
                 class="fa-solid fa-truck-fast text-2xl text-[var(--accent)]"
               ></i>
             </div>
@@ -724,12 +764,12 @@
           all regions of Ghana.
         </p>
         <div class="flex flex-wrap items-center justify-center gap-3">
-          <a href="tel:0551886996" class="btn btn-primary">
-            <i class="fa-solid fa-phone"></i> 055 188 6996
-          </a>
-          <a href="https://wa.me/233551886996" class="btn">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-          </a>
+          <a href="tel:0551886996" class="btn btn-primary"
+            ><i class="fa-solid fa-phone"></i> 055 188 6996</a
+          >
+          <a href="https://wa.me/233551886996" class="btn"
+            ><i class="fa-brands fa-whatsapp"></i> WhatsApp</a
+          >
         </div>
         <div class="mt-8 text-[var(--ink-dim)] text-sm">
           Location: Kumasi, Ghana · Showroom open Mon‑Sat 8am‑5pm
@@ -752,15 +792,14 @@
             </p>
             <div class="flex gap-3 mt-6">
               <a class="social" href="#"
-                ><i class="fa-brands fa-facebook-f"></i
+                ><i class="fa-brands fa-facebook-f"></i></a
+              ><a class="social" href="#"
+                ><i class="fa-brands fa-instagram"></i></a
+              ><a class="social" href="#"
+                ><i class="fa-brands fa-whatsapp"></i></a
+              ><a class="social" href="#"
+                ><i class="fa-brands fa-tiktok"></i
               ></a>
-              <a class="social" href="#"
-                ><i class="fa-brands fa-instagram"></i
-              ></a>
-              <a class="social" href="#"
-                ><i class="fa-brands fa-whatsapp"></i
-              ></a>
-              <a class="social" href="#"><i class="fa-brands fa-tiktok"></i></a>
             </div>
           </div>
           <div class="md:col-span-2">
@@ -800,8 +839,7 @@
                 type="email"
                 placeholder="Your email"
                 class="bg-transparent px-4 py-3 text-sm flex-1 outline-none"
-              />
-              <button class="bg-[var(--accent)] text-white px-5">
+              /><button class="bg-[var(--accent)] text-white px-5">
                 <i class="fa-solid fa-arrow-right text-xs"></i>
               </button>
             </form>
@@ -812,8 +850,8 @@
         >
           <div>© 2026 KOFAK GLOBAL LIMITED. All rights reserved.</div>
           <div class="flex gap-6">
-            <a href="#" class="hover:text-[var(--ink)]">Privacy</a>
-            <a href="#" class="hover:text-[var(--ink)]">Terms</a>
+            <a href="#" class="hover:text-[var(--ink)]">Privacy</a
+            ><a href="#" class="hover:text-[var(--ink)]">Terms</a>
           </div>
         </div>
       </div>
@@ -833,7 +871,6 @@
       function getImageUrl(publicId, width = 1200) {
         return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},q_auto,f_auto/${publicId}`;
       }
-
       function getVideoThumbnail(publicId) {
         return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_800,q_auto,f_auto,so_0/${publicId}.jpg`;
       }
@@ -853,12 +890,12 @@
       function renderGallery(filter = "all") {
         const container = document.getElementById("galleryGrid");
         if (!container) return;
-        let filtered = allMedia;
-        if (filter !== "all") {
-          filtered = allMedia.filter((m) => m.resource_type === filter);
-        }
+        let filtered =
+          filter === "all"
+            ? allMedia
+            : allMedia.filter((m) => m.resource_type === filter);
         if (!filtered.length) {
-          container.innerHTML = `<div class="col-span-full text-center text-[var(--ink-dim)] py-20">No media found. Upload your roofing project images to Cloudinary.</div>`;
+          container.innerHTML = `<div class="col-span-full text-center text-[var(--ink-dim)] py-20">No roofing projects found. Upload images to your Cloudinary folder.</div>`;
           return;
         }
         container.innerHTML = filtered
@@ -883,28 +920,14 @@
               item.resource_type === "video"
                 ? "Installation video"
                 : "Roofing project";
-            return `
-            <div class="g-item span-${spanClass} ${arClass}" data-type="${item.resource_type}" data-src="${fullUrl}">
-              <span class="num">${numStr}</span>
-              <img src="${imgUrl}" alt="${name}" loading="lazy" />
-              <div class="g-meta">
-                <div>
-                  <div class="t-tag">${tagText}</div>
-                  <div class="t-title">${name}</div>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-              </div>
-            </div>`;
+            return `<div class="g-item span-${spanClass} ${arClass}" data-type="${item.resource_type}" data-src="${fullUrl}"><span class="num">${numStr}</span><img src="${imgUrl}" alt="${name}" loading="lazy" /><div class="g-meta"><div><div class="t-tag">${tagText}</div><div class="t-title">${name}</div></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div></div>`;
           })
           .join("");
-
-        // Re-attach lightbox listeners
         document.querySelectorAll(".g-item").forEach((el) => {
           el.removeEventListener("click", lightboxClickHandler);
           el.addEventListener("click", lightboxClickHandler);
         });
       }
-
       function lightboxClickHandler(e) {
         const src = this.dataset.src;
         if (src) {
@@ -913,9 +936,8 @@
         }
       }
 
-      // Lightbox handlers
-      const lb = document.getElementById("lb");
-      const lbImg = document.getElementById("lbImg");
+      const lb = document.getElementById("lb"),
+        lbImg = document.getElementById("lbImg");
       document
         .getElementById("lbClose")
         .addEventListener("click", () => lb.classList.remove("open"));
@@ -926,47 +948,63 @@
         if (e.key === "Escape") lb.classList.remove("open");
       });
 
-      // Filter listeners
-      document.getElementById("filterGroup").addEventListener("click", (e) => {
-        const chip = e.target.closest(".chip");
-        if (!chip) return;
-        document
-          .querySelectorAll("#filterGroup .chip")
-          .forEach((c) => c.classList.remove("active"));
-        chip.classList.add("active");
-        currentFilter = chip.dataset.filter;
-        renderGallery(currentFilter);
-      });
+      function initFilters() {
+        const filterGroup = document.getElementById("filterGroup");
+        if (!filterGroup) return;
+        const handleFilter = (e) => {
+          const chip = e.target.closest(".chip");
+          if (!chip) return;
+          e.preventDefault();
+          document
+            .querySelectorAll("#filterGroup .chip")
+            .forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          currentFilter = chip.dataset.filter;
+          renderGallery(currentFilter);
+        };
+        filterGroup.addEventListener("click", handleFilter);
+        filterGroup.addEventListener("touchstart", handleFilter, {
+          passive: false,
+        });
+      }
 
-      // Fetch manifest with cache busting
-      (async () => {
-        const loadingDiv = document.getElementById("loading");
+      async function loadManifest() {
+        const loadingDiv = document.getElementById("galleryLoading");
         const galleryDiv = document.getElementById("galleryGrid");
-        const errorDiv = document.getElementById("error");
+        const errorDiv = document.getElementById("galleryError");
         try {
-          // Add timestamp to avoid caching issues
+          if (loadingDiv) loadingDiv.style.display = "flex";
+          if (galleryDiv) galleryDiv.classList.add("hidden");
+          if (errorDiv) errorDiv.classList.add("hidden");
           const url = MANIFEST_URL + "?t=" + Date.now();
           const res = await fetch(url, { cache: "no-store" });
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          allMedia = await res.json();
-          if (!allMedia.length) throw new Error("Empty manifest");
-          renderGallery("all");
-          // Hide loading if any (no loading indicator exists, but we can still ensure gallery is visible)
-          if (galleryDiv) galleryDiv.classList.remove("hidden");
-        } catch (err) {
-          console.error("Gallery load error:", err);
+          const data = await res.json();
+          if (!data.length) throw new Error("Empty manifest");
+          allMedia = data;
+          if (loadingDiv) loadingDiv.style.display = "none";
           if (galleryDiv) {
-            galleryDiv.innerHTML = `<div class="col-span-full text-center text-red-400 py-20">⚠️ Could not load media-list.json. Please ensure it exists and is valid JSON.</div>`;
+            galleryDiv.classList.remove("hidden");
+            renderGallery(currentFilter);
           }
+          initFilters();
+        } catch (err) {
+          console.error(err);
+          if (loadingDiv) loadingDiv.style.display = "none";
+          if (errorDiv) errorDiv.classList.remove("hidden");
+          if (galleryDiv) galleryDiv.classList.add("hidden");
         }
-      })();
+      }
+      document
+        .getElementById("retryBtn")
+        ?.addEventListener("click", loadManifest);
+      loadManifest();
 
-      // Scroll reveal observer
       const io = new IntersectionObserver(
         (entries) =>
-          entries.forEach((e) => {
-            if (e.isIntersecting) e.target.classList.add("in");
-          }),
+          entries.forEach(
+            (e) => e.isIntersecting && e.target.classList.add("in"),
+          ),
         { threshold: 0.12 },
       );
       document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
