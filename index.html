@@ -102,24 +102,24 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: brightness(0.8) saturate(1.05);
+        filter: brightness(1) saturate(1.05); /* restored natural brightness */
         transform: scale(1.02);
       }
-      /* Updated gradient – much darker at bottom for text readability */
+      /* Refined gradient: much lighter, preserves image vibrancy while keeping text readable */
       .hero-grad {
         position: absolute;
         inset: 0;
         background:
           radial-gradient(
             70% 60% at 80% 30%,
-            rgba(255, 91, 46, 0.08),
-            transparent 60%
+            rgba(255, 91, 46, 0.05),
+            transparent 70%
           ),
           linear-gradient(
             to bottom,
-            rgba(11, 11, 12, 0.1) 0%,
-            rgba(11, 11, 12, 0.5) 40%,
-            rgba(11, 11, 12, 0.92) 100%
+            rgba(11, 11, 12, 0) 0%,
+            rgba(11, 11, 12, 0.1) 45%,
+            rgba(11, 11, 12, 0.45) 100%
           );
       }
       .hero-title {
@@ -135,18 +135,18 @@
         font-weight: 400;
         color: var(--accent);
       }
-      /* Glass card for description */
+      /* glass card for description — subtle blur, no extra darkening */
       .hero-text-card {
-        background: rgba(11, 11, 12, 0.65);
-        backdrop-filter: blur(8px);
+        background: rgba(11, 11, 12, 0.55);
+        backdrop-filter: blur(10px);
         border-radius: 24px;
         padding: 1.2rem 1.6rem;
-        border: 1px solid rgba(245, 243, 238, 0.15);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(245, 243, 238, 0.18);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
       }
       .hero-description {
         color: #f5f3ee;
-        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
         font-weight: 400;
         line-height: 1.5;
       }
@@ -394,44 +394,138 @@
         height: 100%;
         object-fit: cover;
       }
-      .lb {
-        display: none;
+
+      /* CAROUSEL / LIGHTBOX STYLES */
+      .carousel-overlay {
         position: fixed;
         inset: 0;
-        z-index: 300;
-        background: rgba(8, 8, 9, 0.96);
-        backdrop-filter: blur(20px);
+        z-index: 1000;
+        background: rgba(8, 8, 9, 0.98);
+        backdrop-filter: blur(28px);
+        display: none;
         align-items: center;
         justify-content: center;
-        padding: 4rem;
+        visibility: hidden;
+        opacity: 0;
+        transition:
+          visibility 0.2s,
+          opacity 0.25s ease;
       }
-      .lb.open {
+      .carousel-overlay.open {
         display: flex;
+        visibility: visible;
+        opacity: 1;
       }
-      .lb img {
-        max-width: 90vw;
-        max-height: 85vh;
-        border-radius: 12px;
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      .carousel-container {
+        position: relative;
+        width: 90vw;
+        max-width: 1300px;
+        height: 85vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
-      .lb-close {
-        position: fixed;
-        top: 1.5rem;
-        right: 1.5rem;
+      .carousel-main {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+        background: #00000020;
+        border-radius: 32px;
+      }
+      .carousel-media {
+        max-width: 100%;
+        max-height: 75vh;
+        object-fit: contain;
+        border-radius: 20px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        transition: transform 0.2s;
+      }
+      .carousel-video {
+        max-width: 100%;
+        max-height: 75vh;
+        width: auto;
+        border-radius: 20px;
+        outline: none;
+        background: black;
+      }
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(20, 20, 25, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
         width: 48px;
         height: 48px;
         border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        color: var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+        z-index: 20;
+      }
+      .carousel-btn:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        transform: translateY(-50%) scale(1.05);
+      }
+      .carousel-prev {
+        left: 20px;
+      }
+      .carousel-next {
+        right: 20px;
+      }
+      .carousel-close {
+        position: absolute;
+        top: 20px;
+        right: 28px;
+        width: 44px;
+        height: 44px;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        border-radius: 999px;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 1px solid var(--line);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        z-index: 30;
+        transition: 0.2s;
       }
-      .lb-close:hover {
+      .carousel-close:hover {
         background: var(--accent);
         border-color: var(--accent);
+      }
+      .carousel-counter {
+        position: absolute;
+        bottom: -2rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: "Inter", monospace;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+        color: var(--ink-dim);
+        background: transparent;
+        padding: 0.5rem;
+      }
+      @media (max-width: 700px) {
+        .carousel-btn {
+          width: 38px;
+          height: 38px;
+        }
+        .carousel-prev {
+          left: 8px;
+        }
+        .carousel-next {
+          right: 8px;
+        }
       }
       .reveal {
         opacity: 0;
@@ -515,6 +609,10 @@
         src="assets/affordable-roofing-accra.jpg"
         alt="Stone coated metal tile roofing installation"
         class="hero-img"
+        onerror="
+          this.src =
+            'https://placehold.co/1920x1080/1a1a1e/f5f3ee?text=KOFAK+Roofing'
+        "
       />
       <div class="hero-grad"></div>
       <div
@@ -533,7 +631,6 @@
         <div
           class="mt-10 flex flex-col md:flex-row md:items-end md:justify-between gap-8"
         >
-          <!-- Improved readability: glass card + better text contrast -->
           <div class="max-w-md">
             <div class="hero-text-card">
               <p class="hero-description text-lg leading-relaxed">
@@ -545,9 +642,8 @@
           </div>
           <div class="flex items-center gap-3">
             <a href="#gallery" class="btn btn-primary"
-              >View our work <i class="fa-solid fa-arrow-down text-xs"></i
-            ></a>
-            <a href="#contact" class="btn">Call now</a>
+              >View our work <i class="fa-solid fa-arrow-down text-xs"></i></a
+            ><a href="#contact" class="btn">Call now</a>
           </div>
         </div>
       </div>
@@ -593,9 +689,9 @@
             </h2>
           </div>
           <div class="flex flex-wrap gap-2" id="filterGroup">
-            <button class="chip active" data-filter="all">All</button>
-            <button class="chip" data-filter="image">Images</button>
-            <button class="chip" data-filter="video">Videos</button>
+            <button class="chip active" data-filter="all">All</button
+            ><button class="chip" data-filter="image">Images</button
+            ><button class="chip" data-filter="video">Videos</button>
           </div>
         </div>
         <div id="galleryLoading" class="flex flex-col items-center py-16">
@@ -607,8 +703,7 @@
         <div id="galleryGrid" class="gallery-grid hidden"></div>
         <div id="galleryError" class="hidden text-center py-16">
           <p class="text-red-400 mb-4">
-            ⚠️ Failed to load gallery. Check your internet connection or
-            manifest file.
+            ⚠️ Failed to load gallery. Check manifest file.
           </p>
           <button id="retryBtn" class="btn btn-primary">
             Retry <i class="fa-solid fa-rotate-right"></i>
@@ -629,6 +724,10 @@
             <img
               src="assets/IMG_20201126_162330__01sm-592x444.jpg"
               alt="KOFAK roofing project in Kumasi"
+              onerror="
+                this.src =
+                  'https://placehold.co/800x1000/131316/f5f3ee?text=KOFAK+Team'
+              "
             />
           </div>
         </div>
@@ -649,8 +748,7 @@
             Based in Kumasi, we supply and install premium stone coated metal
             tiles, self‑lock roofing sheets, and IBR profiles across Ghana. From
             residential homes to large‑scale industrial projects, our roofing
-            solutions combine durability, aesthetics, and affordability. We
-            serve Accra, Kumasi, and all major regions.
+            solutions combine durability, aesthetics, and affordability.
           </p>
           <div
             class="grid grid-cols-3 gap-8 border-t border-[var(--line)] pt-10"
@@ -695,7 +793,7 @@
             <h3 class="serif text-3xl mb-3">Stone Coated Metal Tiles</h3>
             <p class="text-[var(--ink-dim)]">
               Durable, fire‑resistant, and elegant. Available in multiple
-              colours. Perfect for villas, churches, and modern homes.
+              colours.
             </p>
           </div>
           <div
@@ -709,8 +807,7 @@
             </div>
             <h3 class="serif text-3xl mb-3">Self‑Lock Roofing Sheets</h3>
             <p class="text-[var(--ink-dim)]">
-              Easy installation, no exposed screws. Ideal for industrial sheds,
-              warehouses, and economical housing.
+              Easy installation, no exposed screws. Ideal for industrial sheds.
             </p>
           </div>
           <div
@@ -724,8 +821,7 @@
             </div>
             <h3 class="serif text-3xl mb-3">IBR (Inverted Box Rib)</h3>
             <p class="text-[var(--ink-dim)]">
-              High tensile strength, wide coverage. Commonly used for
-              agricultural buildings, workshops, and perimeter walls.
+              High tensile strength, wide coverage. Agricultural & workshops.
             </p>
           </div>
           <div
@@ -739,8 +835,7 @@
             </div>
             <h3 class="serif text-3xl mb-3">Delivery & Installation</h3>
             <p class="text-[var(--ink-dim)]">
-              Free quotes, nationwide delivery, and professional installation
-              teams. We handle projects of any size.
+              Free quotes, nationwide delivery, professional installation teams.
             </p>
           </div>
         </div>
@@ -766,8 +861,7 @@
         <div class="flex flex-wrap items-center justify-center gap-3">
           <a href="tel:0551886996" class="btn btn-primary"
             ><i class="fa-solid fa-phone"></i> 055 188 6996</a
-          >
-          <a href="https://wa.me/233551886996" class="btn"
+          ><a href="https://wa.me/233551886996" class="btn"
             ><i class="fa-brands fa-whatsapp"></i> WhatsApp</a
           >
         </div>
@@ -857,9 +951,26 @@
       </div>
     </footer>
 
-    <div class="lb" id="lb">
-      <div class="lb-close" id="lbClose"><i class="fa-solid fa-xmark"></i></div>
-      <img id="lbImg" alt="" />
+    <!-- CAROUSEL OVERLAY -->
+    <div id="carouselOverlay" class="carousel-overlay">
+      <div class="carousel-container">
+        <div class="carousel-close" id="carouselClose">
+          <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="carousel-main">
+          <div class="carousel-btn carousel-prev" id="carouselPrev">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+          <div
+            id="carouselMediaWrapper"
+            class="flex items-center justify-center w-full h-full"
+          ></div>
+          <div class="carousel-btn carousel-next" id="carouselNext">
+            <i class="fa-solid fa-chevron-right"></i>
+          </div>
+        </div>
+        <div class="carousel-counter" id="carouselCounter"></div>
+      </div>
     </div>
 
     <script>
@@ -867,13 +978,16 @@
       const MANIFEST_URL = "./media-list.json";
       let allMedia = [];
       let currentFilter = "all";
+      let currentDisplayMedia = [];
+      let carouselActive = false;
+      let currentCarouselIndex = 0;
 
-      function getImageUrl(publicId, width = 1200) {
-        return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},q_auto,f_auto/${publicId}`;
-      }
-      function getVideoThumbnail(publicId) {
-        return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_800,q_auto,f_auto,so_0/${publicId}.jpg`;
-      }
+      const getImageUrl = (publicId, width = 1400) =>
+        `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},q_auto,f_auto/${publicId}`;
+      const getVideoThumbnail = (publicId) =>
+        `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_800,q_auto,f_auto,so_0/${publicId}.jpg`;
+      const getVideoPlayUrl = (publicId) =>
+        `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_1000,q_auto/${publicId}.mp4`;
 
       const spanPattern = [7, 5, 4, 8, 4, 4, 4, 12];
       const arPattern = [
@@ -894,8 +1008,9 @@
           filter === "all"
             ? allMedia
             : allMedia.filter((m) => m.resource_type === filter);
+        currentDisplayMedia = filtered;
         if (!filtered.length) {
-          container.innerHTML = `<div class="col-span-full text-center text-[var(--ink-dim)] py-20">No roofing projects found. Upload images to your Cloudinary folder.</div>`;
+          container.innerHTML = `<div class="col-span-full text-center text-[var(--ink-dim)] py-20">No roofing projects found. Upload images/videos to Cloudinary folder.</div>`;
           return;
         }
         container.innerHTML = filtered
@@ -908,45 +1023,148 @@
             const spanClass = spanPattern[idx % spanPattern.length];
             const arClass = arPattern[idx % arPattern.length];
             const numStr = (idx + 1).toString().padStart(2, "0");
-            const imgUrl =
+            const thumbUrl =
               item.resource_type === "video"
                 ? getVideoThumbnail(item.public_id)
-                : getImageUrl(item.public_id, 800);
-            const fullUrl =
-              item.resource_type === "video"
-                ? getVideoThumbnail(item.public_id)
-                : getImageUrl(item.public_id, 1600);
+                : getImageUrl(item.public_id, 600);
             const tagText =
               item.resource_type === "video"
                 ? "Installation video"
                 : "Roofing project";
-            return `<div class="g-item span-${spanClass} ${arClass}" data-type="${item.resource_type}" data-src="${fullUrl}"><span class="num">${numStr}</span><img src="${imgUrl}" alt="${name}" loading="lazy" /><div class="g-meta"><div><div class="t-tag">${tagText}</div><div class="t-title">${name}</div></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div></div>`;
+            return `<div class="g-item span-${spanClass} ${arClass}" data-media-index="${idx}" data-type="${item.resource_type}"><span class="num">${numStr}</span><img src="${thumbUrl}" alt="${name}" loading="lazy" /><div class="g-meta"><div><div class="t-tag">${tagText}</div><div class="t-title">${name}</div></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div></div>`;
           })
           .join("");
+        attachGalleryClickEvents();
+      }
+
+      function attachGalleryClickEvents() {
         document.querySelectorAll(".g-item").forEach((el) => {
-          el.removeEventListener("click", lightboxClickHandler);
-          el.addEventListener("click", lightboxClickHandler);
+          el.removeEventListener("click", galleryClickHandler);
+          el.addEventListener("click", galleryClickHandler);
         });
       }
-      function lightboxClickHandler(e) {
-        const src = this.dataset.src;
-        if (src) {
-          lbImg.src = src;
-          lb.classList.add("open");
+
+      function galleryClickHandler(e) {
+        const idxAttr = this.dataset.mediaIndex;
+        if (idxAttr !== undefined && currentDisplayMedia.length) {
+          const idx = parseInt(idxAttr, 10);
+          if (!isNaN(idx)) openCarousel(idx);
         }
       }
 
-      const lb = document.getElementById("lb"),
-        lbImg = document.getElementById("lbImg");
-      document
-        .getElementById("lbClose")
-        .addEventListener("click", () => lb.classList.remove("open"));
-      lb.addEventListener("click", (e) => {
-        if (e.target === lb) lb.classList.remove("open");
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") lb.classList.remove("open");
-      });
+      function openCarousel(startIndex) {
+        if (!currentDisplayMedia.length) return;
+        currentCarouselIndex = Math.min(
+          Math.max(0, startIndex),
+          currentDisplayMedia.length - 1,
+        );
+        carouselActive = true;
+        const overlay = document.getElementById("carouselOverlay");
+        overlay.classList.add("open");
+        document.body.style.overflow = "hidden";
+        loadCarouselMedia(currentCarouselIndex);
+        updateCarouselCounter();
+      }
+
+      function loadCarouselMedia(index) {
+        const wrapper = document.getElementById("carouselMediaWrapper");
+        if (!wrapper) return;
+        const media = currentDisplayMedia[index];
+        if (!media) return;
+        const isVideo = media.resource_type === "video";
+        wrapper.innerHTML = "";
+        if (isVideo) {
+          const videoEl = document.createElement("video");
+          videoEl.controls = true;
+          videoEl.autoplay = false;
+          videoEl.className = "carousel-video";
+          videoEl.style.maxHeight = "75vh";
+          videoEl.style.maxWidth = "90vw";
+          const posterUrl = getVideoThumbnail(media.public_id);
+          videoEl.poster = posterUrl;
+          const source = document.createElement("source");
+          source.src = getVideoPlayUrl(media.public_id);
+          source.type = "video/mp4";
+          videoEl.appendChild(source);
+          videoEl.load();
+          wrapper.appendChild(videoEl);
+        } else {
+          const img = document.createElement("img");
+          img.src = getImageUrl(media.public_id, 1600);
+          img.alt = media.public_id.split("/").pop();
+          img.className = "carousel-media";
+          img.style.maxHeight = "75vh";
+          img.style.maxWidth = "90vw";
+          wrapper.appendChild(img);
+        }
+        updateCarouselCounter();
+      }
+
+      function updateCarouselCounter() {
+        const counterDiv = document.getElementById("carouselCounter");
+        if (counterDiv && currentDisplayMedia.length) {
+          counterDiv.innerText = `${currentCarouselIndex + 1} / ${currentDisplayMedia.length}`;
+        }
+      }
+
+      function nextCarousel() {
+        if (!currentDisplayMedia.length) return;
+        currentCarouselIndex =
+          (currentCarouselIndex + 1) % currentDisplayMedia.length;
+        loadCarouselMedia(currentCarouselIndex);
+      }
+
+      function prevCarousel() {
+        if (!currentDisplayMedia.length) return;
+        currentCarouselIndex =
+          (currentCarouselIndex - 1 + currentDisplayMedia.length) %
+          currentDisplayMedia.length;
+        loadCarouselMedia(currentCarouselIndex);
+      }
+
+      function closeCarousel() {
+        const overlay = document.getElementById("carouselOverlay");
+        overlay.classList.remove("open");
+        document.body.style.overflow = "";
+        carouselActive = false;
+        const wrapper = document.getElementById("carouselMediaWrapper");
+        if (wrapper) wrapper.innerHTML = "";
+      }
+
+      function initCarouselControls() {
+        const prevBtn = document.getElementById("carouselPrev");
+        const nextBtn = document.getElementById("carouselNext");
+        const closeBtn = document.getElementById("carouselClose");
+        const overlay = document.getElementById("carouselOverlay");
+        if (prevBtn)
+          prevBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            prevCarousel();
+          });
+        if (nextBtn)
+          nextBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            nextCarousel();
+          });
+        if (closeBtn) closeBtn.addEventListener("click", closeCarousel);
+        if (overlay)
+          overlay.addEventListener("click", (e) => {
+            if (e.target === overlay) closeCarousel();
+          });
+        document.addEventListener("keydown", (e) => {
+          if (!carouselActive) return;
+          if (e.key === "ArrowLeft") {
+            prevCarousel();
+            e.preventDefault();
+          } else if (e.key === "ArrowRight") {
+            nextCarousel();
+            e.preventDefault();
+          } else if (e.key === "Escape") {
+            closeCarousel();
+            e.preventDefault();
+          }
+        });
+      }
 
       function initFilters() {
         const filterGroup = document.getElementById("filterGroup");
@@ -954,18 +1172,15 @@
         const handleFilter = (e) => {
           const chip = e.target.closest(".chip");
           if (!chip) return;
-          e.preventDefault();
           document
             .querySelectorAll("#filterGroup .chip")
             .forEach((c) => c.classList.remove("active"));
           chip.classList.add("active");
           currentFilter = chip.dataset.filter;
+          if (carouselActive) closeCarousel();
           renderGallery(currentFilter);
         };
         filterGroup.addEventListener("click", handleFilter);
-        filterGroup.addEventListener("touchstart", handleFilter, {
-          passive: false,
-        });
       }
 
       async function loadManifest() {
@@ -989,15 +1204,17 @@
           }
           initFilters();
         } catch (err) {
-          console.error(err);
+          console.warn(err);
           if (loadingDiv) loadingDiv.style.display = "none";
           if (errorDiv) errorDiv.classList.remove("hidden");
           if (galleryDiv) galleryDiv.classList.add("hidden");
         }
       }
+
       document
         .getElementById("retryBtn")
         ?.addEventListener("click", loadManifest);
+      initCarouselControls();
       loadManifest();
 
       const io = new IntersectionObserver(
