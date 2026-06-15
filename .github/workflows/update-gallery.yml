@@ -1,0 +1,36 @@
+name: Update Gallery Manifest
+
+on:
+  push:
+    branches: [main, master] # run on push to main branch
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  update-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install cloudinary
+
+      - name: Generate media-list.json
+        env:
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+        run: node generate.js # your script reads from env vars
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add media-list.json
+          git diff --staged --quiet || git commit -m "chore: update media manifest [skip ci]"
+          git push

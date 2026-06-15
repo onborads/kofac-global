@@ -1,0 +1,954 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KOFAK GLOBAL LIMITED – Roofing & Building Solutions</title>
+    <meta
+      name="description"
+      content="KOFAK GLOBAL LIMITED, based in Kumasi, is a leading supplier of stone coated metal tiles, self-lock roofing sheets, and IBR roofing. Quality roofing solutions for modern construction."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #0b0b0c;
+        --bg-2: #131316;
+        --ink: #f5f3ee;
+        --ink-dim: #a8a39b;
+        --line: rgba(245, 243, 238, 0.08);
+        --accent: #ff5b2e;
+      }
+      * {
+        -webkit-font-smoothing: antialiased;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+        overflow-x: hidden;
+      }
+      .serif {
+        font-family: "Fraunces", serif;
+        font-optical-sizing: auto;
+      }
+      .mono-tag {
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 11px;
+        color: var(--ink-dim);
+      }
+
+      .grain::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 200;
+        opacity: 0.06;
+        mix-blend-mode: overlay;
+        background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
+      }
+
+      .nav-link {
+        position: relative;
+        padding: 6px 0;
+        color: var(--ink);
+        opacity: 0.75;
+        transition: opacity 0.2s ease;
+      }
+      .nav-link:hover {
+        opacity: 1;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 0;
+        background: var(--accent);
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 1fr auto;
+      }
+      .hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.8) saturate(1.05); /* lighter than before */
+        transform: scale(1.02);
+      }
+      .hero-grad {
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            70% 60% at 80% 30%,
+            rgba(255, 91, 46, 0.08),
+            /* reduced opacity */ transparent 60%
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(11, 11, 12, 0.1) 0%,
+            rgba(11, 11, 12, 0.3) 50%,
+            rgba(11, 11, 12, 0.8) 100%
+          );
+      }
+      .hero-title {
+        font-family: "Fraunces", serif;
+        font-weight: 300;
+        font-size: clamp(3.2rem, 11vw, 11rem);
+        line-height: 0.92;
+        letter-spacing: -0.04em;
+      }
+      .hero-title em {
+        font-style: italic;
+        font-weight: 400;
+        color: var(--accent);
+      }
+      .marquee {
+        display: flex;
+        gap: 3rem;
+        white-space: nowrap;
+        animation: marquee 40s linear infinite;
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(1.5rem, 3vw, 2.5rem);
+        color: var(--ink-dim);
+      }
+      .marquee span {
+        display: inline-flex;
+        align-items: center;
+        gap: 3rem;
+      }
+      .marquee i.fa-asterisk {
+        font-size: 0.8em;
+        color: var(--accent);
+        font-style: normal;
+      }
+      @keyframes marquee {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.95rem 1.6rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--ink);
+        transition: all 0.25s ease;
+        backdrop-filter: blur(8px);
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .btn:hover {
+        background: var(--ink);
+        color: var(--bg);
+        border-color: var(--ink);
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      .btn-primary:hover {
+        background: #fff;
+        color: var(--bg);
+        border-color: #fff;
+        transform: translateY(-2px);
+      }
+
+      .section {
+        padding: 8rem 0;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--accent);
+      }
+      .eyebrow .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--accent);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.25rem;
+      }
+      @media (max-width: 768px) {
+        .gallery-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .g-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+        background: var(--bg-2);
+        cursor: pointer;
+        transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .g-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+          transform 1.2s cubic-bezier(0.2, 0.9, 0.3, 1),
+          filter 0.6s ease;
+        filter: saturate(0.95);
+      }
+      .g-item:hover img {
+        transform: scale(1.06);
+        filter: saturate(1.15);
+      }
+      .g-item::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity 0.35s ease;
+        pointer-events: none;
+      }
+      .g-item:hover::after {
+        opacity: 1;
+      }
+      .g-meta {
+        position: absolute;
+        left: 1.25rem;
+        right: 1.25rem;
+        bottom: 1.1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        color: var(--ink);
+        opacity: 0;
+        transform: translateY(8px);
+        transition: all 0.4s ease;
+        z-index: 2;
+      }
+      .g-item:hover .g-meta {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .g-meta .t-title {
+        font-family: "Fraunces", serif;
+        font-size: 1.4rem;
+        font-weight: 400;
+      }
+      .g-meta .t-tag {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+      .g-item .num {
+        position: absolute;
+        top: 1rem;
+        left: 1.2rem;
+        z-index: 2;
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        color: var(--ink);
+        font-size: 0.95rem;
+        opacity: 0.85;
+        mix-blend-mode: difference;
+      }
+
+      .span-3 {
+        grid-column: span 3;
+      }
+      .span-4 {
+        grid-column: span 4;
+      }
+      .span-5 {
+        grid-column: span 5;
+      }
+      .span-6 {
+        grid-column: span 6;
+      }
+      .span-7 {
+        grid-column: span 7;
+      }
+      .span-8 {
+        grid-column: span 8;
+      }
+      .span-12 {
+        grid-column: span 12;
+      }
+      @media (max-width: 768px) {
+        .span-3,
+        .span-4,
+        .span-5,
+        .span-6,
+        .span-7,
+        .span-8 {
+          grid-column: span 4;
+        }
+        .span-12 {
+          grid-column: span 4;
+        }
+      }
+      .ar-portrait {
+        aspect-ratio: 3/4;
+      }
+      .ar-landscape {
+        aspect-ratio: 16/10;
+      }
+      .ar-square {
+        aspect-ratio: 1/1;
+      }
+      .ar-wide {
+        aspect-ratio: 21/9;
+      }
+
+      .chip {
+        padding: 0.55rem 1.1rem;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        color: var(--ink-dim);
+        transition: all 0.2s ease;
+        font-size: 0.875rem;
+      }
+      .chip:hover {
+        color: var(--ink);
+        border-color: rgba(245, 243, 238, 0.25);
+      }
+      .chip.active {
+        background: var(--ink);
+        color: var(--bg);
+        border-color: var(--ink);
+      }
+
+      .stat-num {
+        font-family: "Fraunces", serif;
+        font-weight: 300;
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        line-height: 1;
+        letter-spacing: -0.03em;
+      }
+      .stat-num em {
+        font-style: italic;
+        color: var(--accent);
+      }
+
+      .about-img {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        aspect-ratio: 4/5;
+      }
+      .about-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .lb {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        background: rgba(8, 8, 9, 0.96);
+        backdrop-filter: blur(20px);
+        align-items: center;
+        justify-content: center;
+        padding: 4rem;
+      }
+      .lb.open {
+        display: flex;
+      }
+      .lb img {
+        max-width: 90vw;
+        max-height: 85vh;
+        border-radius: 12px;
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+      }
+      .lb-close {
+        position: fixed;
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 48px;
+        height: 48px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 1px solid var(--line);
+      }
+      .lb-close:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: all 1s cubic-bezier(0.2, 0.9, 0.3, 1);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      footer {
+        background: #060607;
+        border-top: 1px solid var(--line);
+      }
+      .social {
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--line);
+        color: var(--ink-dim);
+        transition: all 0.25s ease;
+      }
+      .social:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+        transform: translateY(-3px);
+      }
+    </style>
+  </head>
+  <body class="grain">
+    <header
+      class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[rgba(11,11,12,0.55)] border-b border-[rgba(245,243,238,0.06)]"
+    >
+      <nav
+        class="max-w-[1400px] mx-auto px-6 md:px-10 h-20 flex items-center justify-between"
+      >
+        <a href="#" class="flex items-center gap-3">
+          <div
+            class="w-9 h-9 rounded-full bg-[var(--accent)] flex items-center justify-center serif italic text-white"
+          >
+            K
+          </div>
+          <div class="leading-tight">
+            <div class="serif text-lg">
+              KOFAK<span class="italic text-[var(--accent)]">.</span>
+            </div>
+            <div class="mono-tag text-[9px]">Roofing Solutions</div>
+          </div>
+        </a>
+        <div class="hidden md:flex items-center gap-9 text-sm">
+          <a class="nav-link" href="#gallery">Projects</a>
+          <a class="nav-link" href="#about">Company</a>
+          <a class="nav-link" href="#services">Products</a>
+          <a class="nav-link" href="#contact">Contact</a>
+        </div>
+        <a href="#contact" class="btn text-sm">
+          Get a quote <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <img
+        src="assets/affordable-roofing-accra.jpg"
+        alt="Stone coated metal tile roofing installation"
+        class="hero-img"
+      />
+      <div class="hero-grad"></div>
+      <div
+        class="relative z-10 max-w-[1400px] mx-auto w-full px-6 md:px-10 pt-32 pb-24 flex-1 flex flex-col justify-end"
+      >
+        <div class="flex items-center justify-between mb-8">
+          <div class="mono-tag flex items-center gap-3">
+            <span class="w-8 h-px bg-[var(--ink-dim)]"></span>
+            KOFAK GLOBAL LIMITED · Kumasi
+          </div>
+          <div class="hidden md:block mono-tag">Est. 2018</div>
+        </div>
+        <h1 class="hero-title max-w-[14ch]">
+          Quality <em>roofing</em><br />that lasts.
+        </h1>
+        <div
+          class="mt-10 flex flex-col md:flex-row md:items-end md:justify-between gap-8"
+        >
+          <p class="max-w-md text-[var(--ink-dim)] text-lg leading-relaxed">
+            Stone Coated Metal Tiles, Self‑Lock, IBR – premium roofing sheets
+            for residential, commercial and industrial projects across Ghana.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="#gallery" class="btn btn-primary">
+              View our work <i class="fa-solid fa-arrow-down text-xs"></i>
+            </a>
+            <a href="#contact" class="btn">Call now</a>
+          </div>
+        </div>
+      </div>
+      <div
+        class="relative z-10 border-t border-[rgba(245,243,238,0.08)] py-5 overflow-hidden"
+      >
+        <div class="marquee">
+          <span
+            >Stone Coated Metal Tiles
+            <i class="fa-solid fa-asterisk"></i> Self‑Lock
+            <i class="fa-solid fa-asterisk"></i> IBR
+            <i class="fa-solid fa-asterisk"></i> Long Span
+            <i class="fa-solid fa-asterisk"></i> Affordable Roofing
+            <i class="fa-solid fa-asterisk"></i> Accra · Kumasi
+            <i class="fa-solid fa-asterisk"></i>
+          </span>
+          <span
+            >Stone Coated Metal Tiles
+            <i class="fa-solid fa-asterisk"></i> Self‑Lock
+            <i class="fa-solid fa-asterisk"></i> IBR
+            <i class="fa-solid fa-asterisk"></i> Long Span
+            <i class="fa-solid fa-asterisk"></i> Affordable Roofing
+            <i class="fa-solid fa-asterisk"></i> Accra · Kumasi
+            <i class="fa-solid fa-asterisk"></i>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY (dynamic from media-list.json) -->
+    <section id="gallery" class="section">
+      <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+        <div
+          class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 reveal"
+        >
+          <div>
+            <div class="eyebrow mono-tag mb-5">
+              <span class="dot"></span> Our installations · 2022–2026
+            </div>
+            <h2
+              class="serif text-5xl md:text-7xl leading-[0.95] tracking-tight max-w-[14ch]"
+            >
+              Roofing <em class="italic text-[var(--accent)]">excellence</em> in
+              every project.
+            </h2>
+          </div>
+          <div class="flex flex-wrap gap-2" id="filterGroup">
+            <button class="chip active" data-filter="all">All</button>
+            <button class="chip" data-filter="image">Images</button>
+            <button class="chip" data-filter="video">Videos</button>
+          </div>
+        </div>
+
+        <div id="galleryGrid" class="gallery-grid reveal"></div>
+      </div>
+    </section>
+
+    <section
+      id="about"
+      class="section bg-[var(--bg-2)] border-y border-[var(--line)]"
+    >
+      <div
+        class="max-w-[1400px] mx-auto px-6 md:px-10 grid md:grid-cols-12 gap-12 items-center"
+      >
+        <div class="md:col-span-5 reveal">
+          <div class="about-img">
+            <img
+              src="/assets/IMG_20201126_162330__01sm-592x444.jpg"
+              alt="KOFAK roofing project in Kumasi"
+            />
+          </div>
+        </div>
+        <div class="md:col-span-7 reveal">
+          <div class="eyebrow mono-tag mb-6">
+            <span class="dot"></span> Who we are
+          </div>
+          <h2
+            class="serif text-5xl md:text-6xl leading-[1.05] tracking-tight mb-8"
+          >
+            KOFAK GLOBAL LIMITED – <br /><em class="italic text-[var(--accent)]"
+              >Your trusted roofing partner</em
+            >.
+          </h2>
+          <p
+            class="text-[var(--ink-dim)] text-lg leading-relaxed max-w-xl mb-10"
+          >
+            Based in Kumasi, we supply and install premium stone coated metal
+            tiles, self‑lock roofing sheets, and IBR profiles across Ghana. From
+            residential homes to large‑scale industrial projects, our roofing
+            solutions combine durability, aesthetics, and affordability. We
+            serve Accra, Kumasi, and all major regions.
+          </p>
+          <div
+            class="grid grid-cols-3 gap-8 border-t border-[var(--line)] pt-10"
+          >
+            <div>
+              <div class="stat-num"><em>50+</em></div>
+              <div class="mono-tag mt-3">Homes roofed</div>
+            </div>
+            <div>
+              <div class="stat-num"><em>20+</em></div>
+              <div class="mono-tag mt-3">Commercial projects</div>
+            </div>
+            <div>
+              <div class="stat-num"><em>24/7</em></div>
+              <div class="mono-tag mt-3">Support</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+        <div class="mb-14 reveal">
+          <div class="eyebrow mono-tag mb-5">
+            <span class="dot"></span> Our product range
+          </div>
+          <h2 class="serif text-5xl md:text-6xl tracking-tight max-w-[18ch]">
+            Quality roofing materials for every need.
+          </h2>
+        </div>
+        <div
+          class="grid md:grid-cols-2 gap-px bg-[var(--line)] border border-[var(--line)] rounded-2xl overflow-hidden"
+        >
+          <div
+            class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
+          >
+            <div class="flex items-start justify-between mb-8">
+              <span class="mono-tag">01 / Premium</span>
+              <i class="fa-solid fa-trowel text-2xl text-[var(--accent)]"></i>
+            </div>
+            <h3 class="serif text-3xl mb-3">Stone Coated Metal Tiles</h3>
+            <p class="text-[var(--ink-dim)]">
+              Durable, fire‑resistant, and elegant. Available in multiple
+              colours. Perfect for villas, churches, and modern homes.
+            </p>
+          </div>
+          <div
+            class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
+          >
+            <div class="flex items-start justify-between mb-8">
+              <span class="mono-tag">02 / Interlocking</span>
+              <i
+                class="fa-solid fa-puzzle-piece text-2xl text-[var(--accent)]"
+              ></i>
+            </div>
+            <h3 class="serif text-3xl mb-3">Self‑Lock Roofing Sheets</h3>
+            <p class="text-[var(--ink-dim)]">
+              Easy installation, no exposed screws. Ideal for industrial sheds,
+              warehouses, and economical housing.
+            </p>
+          </div>
+          <div
+            class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
+          >
+            <div class="flex items-start justify-between mb-8">
+              <span class="mono-tag">03 / IBR</span>
+              <i
+                class="fa-solid fa-chart-simple text-2xl text-[var(--accent)]"
+              ></i>
+            </div>
+            <h3 class="serif text-3xl mb-3">IBR (Inverted Box Rib)</h3>
+            <p class="text-[var(--ink-dim)]">
+              High tensile strength, wide coverage. Commonly used for
+              agricultural buildings, workshops, and perimeter walls.
+            </p>
+          </div>
+          <div
+            class="bg-[var(--bg)] p-10 hover:bg-[var(--bg-2)] transition-colors"
+          >
+            <div class="flex items-start justify-between mb-8">
+              <span class="mono-tag">04 / Service</span>
+              <i
+                class="fa-solid fa-truck-fast text-2xl text-[var(--accent)]"
+              ></i>
+            </div>
+            <h3 class="serif text-3xl mb-3">Delivery & Installation</h3>
+            <p class="text-[var(--ink-dim)]">
+              Free quotes, nationwide delivery, and professional installation
+              teams. We handle projects of any size.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="max-w-[1100px] mx-auto px-6 md:px-10 text-center reveal">
+        <div class="eyebrow mono-tag mb-6 justify-center inline-flex">
+          <span class="dot"></span> Get in touch
+        </div>
+        <h2
+          class="serif text-6xl md:text-8xl leading-[0.95] tracking-tight mb-10"
+        >
+          Ready to roof <br /><em class="italic text-[var(--accent)]"
+            >your next project?</em
+          >
+        </h2>
+        <p class="text-[var(--ink-dim)] text-lg max-w-xl mx-auto mb-10">
+          Call or WhatsApp us for a free consultation and quotation. We serve
+          all regions of Ghana.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a href="tel:0551886996" class="btn btn-primary">
+            <i class="fa-solid fa-phone"></i> 055 188 6996
+          </a>
+          <a href="https://wa.me/233551886996" class="btn">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+        </div>
+        <div class="mt-8 text-[var(--ink-dim)] text-sm">
+          Location: Kumasi, Ghana · Showroom open Mon‑Sat 8am‑5pm
+        </div>
+      </div>
+    </section>
+
+    <footer class="pt-20 pb-10">
+      <div class="max-w-[1400px] mx-auto px-6 md:px-10">
+        <div
+          class="grid md:grid-cols-12 gap-10 pb-14 border-b border-[var(--line)]"
+        >
+          <div class="md:col-span-5">
+            <div class="serif text-3xl mb-4">
+              KOFAK<span class="italic text-[var(--accent)]">.</span>
+            </div>
+            <p class="text-[var(--ink-dim)] max-w-xs leading-relaxed">
+              Premium roofing solutions: stone coated metal tiles, self‑lock,
+              IBR. Quality you can trust.
+            </p>
+            <div class="flex gap-3 mt-6">
+              <a class="social" href="#"
+                ><i class="fa-brands fa-facebook-f"></i
+              ></a>
+              <a class="social" href="#"
+                ><i class="fa-brands fa-instagram"></i
+              ></a>
+              <a class="social" href="#"
+                ><i class="fa-brands fa-whatsapp"></i
+              ></a>
+              <a class="social" href="#"><i class="fa-brands fa-tiktok"></i></a>
+            </div>
+          </div>
+          <div class="md:col-span-2">
+            <div class="mono-tag mb-4">Quick links</div>
+            <ul class="space-y-2 text-[var(--ink-dim)]">
+              <li>
+                <a href="#gallery" class="hover:text-[var(--ink)]">Projects</a>
+              </li>
+              <li>
+                <a href="#about" class="hover:text-[var(--ink)]">Company</a>
+              </li>
+              <li>
+                <a href="#services" class="hover:text-[var(--ink)]">Products</a>
+              </li>
+              <li><a href="#" class="hover:text-[var(--ink)]">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="md:col-span-2">
+            <div class="mono-tag mb-4">Contact</div>
+            <ul class="space-y-2 text-[var(--ink-dim)]">
+              <li><i class="fa-solid fa-phone mr-2"></i> 055 188 6996</li>
+              <li><i class="fa-brands fa-whatsapp mr-2"></i> 055 188 6996</li>
+              <li>
+                <i class="fa-solid fa-location-dot mr-2"></i> Kumasi, Ghana
+              </li>
+            </ul>
+          </div>
+          <div class="md:col-span-3">
+            <div class="mono-tag mb-4">Newsletter</div>
+            <p class="text-[var(--ink-dim)] text-sm mb-4">
+              Get offers and project inspiration.
+            </p>
+            <form
+              class="flex border border-[var(--line)] rounded-full overflow-hidden bg-[rgba(255,255,255,0.03)]"
+            >
+              <input
+                type="email"
+                placeholder="Your email"
+                class="bg-transparent px-4 py-3 text-sm flex-1 outline-none"
+              />
+              <button class="bg-[var(--accent)] text-white px-5">
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-3 pt-8 text-xs text-[var(--ink-dim)]"
+        >
+          <div>© 2026 KOFAK GLOBAL LIMITED. All rights reserved.</div>
+          <div class="flex gap-6">
+            <a href="#" class="hover:text-[var(--ink)]">Privacy</a>
+            <a href="#" class="hover:text-[var(--ink)]">Terms</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="lb" id="lb">
+      <div class="lb-close" id="lbClose"><i class="fa-solid fa-xmark"></i></div>
+      <img id="lbImg" alt="" />
+    </div>
+
+    <script>
+      const CLOUD_NAME = "diadx3thq";
+      const MANIFEST_URL = "./media-list.json";
+      let allMedia = [];
+      let currentFilter = "all";
+
+      function getImageUrl(publicId, width = 1200) {
+        return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},q_auto,f_auto/${publicId}`;
+      }
+
+      function getVideoThumbnail(publicId) {
+        return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_800,q_auto,f_auto,so_0/${publicId}.jpg`;
+      }
+
+      const spanPattern = [7, 5, 4, 8, 4, 4, 4, 12];
+      const arPattern = [
+        "ar-landscape",
+        "ar-portrait",
+        "ar-portrait",
+        "ar-landscape",
+        "ar-square",
+        "ar-square",
+        "ar-square",
+        "ar-wide",
+      ];
+
+      function renderGallery(filter = "all") {
+        const container = document.getElementById("galleryGrid");
+        let filtered = allMedia;
+        if (filter !== "all") {
+          filtered = allMedia.filter((m) => m.resource_type === filter);
+        }
+        if (!filtered.length) {
+          container.innerHTML = `<div class="col-span-full text-center text-[var(--ink-dim)] py-20">No media found. Upload your roofing project images to Cloudinary.</div>`;
+          return;
+        }
+        container.innerHTML = filtered
+          .map((item, idx) => {
+            const name = item.public_id
+              .split("/")
+              .pop()
+              .replace(/[-_]/g, " ")
+              .replace(/\.[^/.]+$/, "");
+            const spanClass = spanPattern[idx % spanPattern.length];
+            const arClass = arPattern[idx % arPattern.length];
+            const numStr = (idx + 1).toString().padStart(2, "0");
+            const imgUrl =
+              item.resource_type === "video"
+                ? getVideoThumbnail(item.public_id)
+                : getImageUrl(item.public_id, 800);
+            const fullUrl =
+              item.resource_type === "video"
+                ? getVideoThumbnail(item.public_id)
+                : getImageUrl(item.public_id, 1600);
+            const tagText =
+              item.resource_type === "video"
+                ? "Installation video"
+                : "Roofing project";
+            return `
+            <div class="g-item span-${spanClass} ${arClass}" data-type="${item.resource_type}" data-src="${fullUrl}">
+              <span class="num">${numStr}</span>
+              <img src="${imgUrl}" alt="${name}" loading="lazy" />
+              <div class="g-meta">
+                <div>
+                  <div class="t-tag">${tagText}</div>
+                  <div class="t-title">${name}</div>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </div>
+            </div>`;
+          })
+          .join("");
+
+        document.querySelectorAll(".g-item").forEach((el) => {
+          el.addEventListener("click", () => {
+            const src = el.dataset.src;
+            lbImg.src = src;
+            lb.classList.add("open");
+          });
+        });
+      }
+
+      const lb = document.getElementById("lb");
+      const lbImg = document.getElementById("lbImg");
+      document
+        .getElementById("lbClose")
+        .addEventListener("click", () => lb.classList.remove("open"));
+      lb.addEventListener("click", (e) => {
+        if (e.target === lb) lb.classList.remove("open");
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") lb.classList.remove("open");
+      });
+
+      document.getElementById("filterGroup").addEventListener("click", (e) => {
+        const chip = e.target.closest(".chip");
+        if (!chip) return;
+        document
+          .querySelectorAll("#filterGroup .chip")
+          .forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        currentFilter = chip.dataset.filter;
+        renderGallery(currentFilter);
+      });
+
+      (async () => {
+        try {
+          const res = await fetch(MANIFEST_URL);
+          if (!res.ok) throw new Error("manifest not found");
+          allMedia = await res.json();
+          renderGallery("all");
+        } catch (err) {
+          document.getElementById("galleryGrid").innerHTML =
+            `<div class="col-span-full text-center text-red-400 py-20">⚠️ Could not load media-list.json. Please ensure it exists.</div>`;
+        }
+      })();
+
+      const io = new IntersectionObserver(
+        (entries) =>
+          entries.forEach(
+            (e) => e.isIntersecting && e.target.classList.add("in"),
+          ),
+        { threshold: 0.12 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    </script>
+  </body>
+</html>

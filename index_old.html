@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kofac Global Ltd – Portfolio Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FontAwesome 6 -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      /* Grid styles (same as before) */
+      .gallery-grid {
+        display: grid !important;
+        grid-template-columns: repeat(12, 1fr) !important;
+        gap: 1.25rem !important;
+      }
+      @media (max-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(8, 1fr) !important;
+        }
+      }
+      @media (max-width: 768px) {
+        .gallery-grid {
+          grid-template-columns: repeat(4, 1fr) !important;
+        }
+      }
+      @media (max-width: 480px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+      }
+      .span-2 {
+        grid-column: span 2;
+      }
+      .span-3 {
+        grid-column: span 3;
+      }
+      .span-4 {
+        grid-column: span 4;
+      }
+      .span-5 {
+        grid-column: span 5;
+      }
+      .span-6 {
+        grid-column: span 6;
+      }
+      .gallery-item {
+        border-radius: 1.25rem;
+        overflow: hidden;
+        background: #f9fafb;
+        box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.12);
+        transition:
+          transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1),
+          box-shadow 0.25s ease;
+        cursor: pointer;
+      }
+      .gallery-item:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 32px -16px rgba(0, 0, 0, 0.2);
+      }
+      .media {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        overflow: hidden;
+        background: #e5e7eb;
+      }
+      .media img,
+      .media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      .gallery-item:hover .media img {
+        transform: scale(1.08);
+      }
+      .overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.5),
+          transparent 70%
+        );
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      .gallery-item:hover .overlay {
+        opacity: 1;
+      }
+      .play-btn {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.85;
+      }
+      .play-btn div {
+        width: 52px;
+        height: 52px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(2px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      /* Lightbox */
+      .lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.94);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .lightbox.open {
+        display: flex;
+      }
+      .lightbox-content {
+        max-width: 90vw;
+        max-height: 85vh;
+      }
+      .lightbox-close {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 999px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        cursor: pointer;
+        color: white;
+      }
+      .spinner {
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .filter-btn.active {
+        background: #0f172a;
+        color: white;
+        border-color: #0f172a;
+      }
+      /* Carousel styles */
+      .carousel-container {
+        position: relative;
+        background: #111;
+        border-radius: 2rem;
+        overflow: hidden;
+        margin-bottom: 3rem;
+      }
+      .carousel-slide {
+        display: none;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+      }
+      .carousel-slide.active {
+        display: block;
+      }
+      .carousel-slide img,
+      .carousel-slide video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: 0.2s;
+        z-index: 10;
+      }
+      .carousel-btn:hover {
+        background: rgba(0, 0, 0, 0.9);
+        transform: translateY(-50%) scale(1.05);
+      }
+      .carousel-btn.prev {
+        left: 1rem;
+      }
+      .carousel-btn.next {
+        right: 1rem;
+      }
+      .carousel-dots {
+        position: absolute;
+        bottom: 1rem;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        z-index: 10;
+      }
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .carousel-dot.active {
+        background: white;
+        width: 24px;
+      }
+      /* Footer social brand colors */
+      .social-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        transition: all 0.25s ease;
+      }
+      .social-icon i {
+        font-size: 1.25rem;
+      }
+      .social-icon:hover {
+        transform: translateY(-3px);
+      }
+      .social-icon.facebook:hover {
+        background: #1877f2;
+        color: white;
+      }
+      .social-icon.instagram:hover {
+        background: linear-gradient(45deg, #f09433, #d62976, #962fbf);
+        color: white;
+      }
+      .social-icon.tiktok:hover {
+        background: #000000;
+        color: #00f2ea;
+        box-shadow: 0 0 12px rgba(0, 242, 234, 0.4);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-gray-50 via-white to-gray-100 text-gray-800"
+  >
+    <!-- Navigation -->
+    <nav
+      class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-gray-200/40 shadow-sm"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <span
+          class="text-xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent"
+          >KOFAC GLOBAL LTD</span
+        >
+        <div class="hidden md:flex gap-7 text-sm font-medium text-gray-500">
+          <a href="#gallery" class="hover:text-gray-900 transition">Gallery</a>
+          <a href="#carousel" class="hover:text-gray-900 transition"
+            >Highlights</a
+          >
+          <a href="#about" class="hover:text-gray-900 transition">About</a>
+          <a href="#contact" class="hover:text-gray-900 transition">Contact</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      class="relative bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-20 md:py-28 overflow-hidden"
+    >
+      <div class="absolute inset-0 opacity-20">
+        <div
+          class="absolute top-20 left-20 w-72 h-72 bg-indigo-500 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-0 right-10 w-96 h-96 bg-purple-600 rounded-full blur-3xl"
+        ></div>
+      </div>
+      <div class="relative max-w-4xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-4">
+          Visual Storytelling
+        </h1>
+        <p class="text-lg md:text-xl text-gray-200 max-w-2xl mx-auto">
+          A curated collection of our finest projects — where creativity meets
+          precision.
+        </p>
+        <div class="mt-8 flex justify-center gap-4">
+          <a
+            href="#carousel"
+            class="px-6 py-2.5 bg-white text-gray-900 rounded-full font-medium shadow-lg hover:shadow-xl transition"
+            >View Highlights</a
+          >
+          <a
+            href="#contact"
+            class="px-6 py-2.5 border border-white/40 rounded-full hover:bg-white/10 transition"
+            >Get in touch</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Gallery Area with Carousel -->
+    <div class="max-w-7xl mx-auto px-6 py-14">
+      <!-- Carousel Section -->
+      <div id="carousel" class="mb-12">
+        <h2 class="text-2xl font-light mb-4">Featured Work</h2>
+        <div class="carousel-container" id="carouselContainer">
+          <div id="carouselSlides" class="relative">
+            <!-- slides injected -->
+          </div>
+          <button class="carousel-btn prev" id="carouselPrev">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="carousel-btn next" id="carouselNext">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+      </div>
+
+      <!-- Grid Gallery Header -->
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+        <div>
+          <h2
+            id="gallery"
+            class="text-2xl md:text-3xl font-light text-gray-800"
+          >
+            All Projects
+          </h2>
+          <p class="text-gray-400 text-sm mt-1">
+            Handpicked moments · <span id="media-count">0</span> assets
+          </p>
+        </div>
+        <div class="flex gap-2 flex-wrap" id="filters">
+          <button
+            class="filter-btn active px-5 py-2 text-sm rounded-full border border-gray-300 bg-white shadow-sm"
+            data-filter="all"
+          >
+            All
+          </button>
+          <button
+            class="filter-btn px-5 py-2 text-sm rounded-full border border-gray-300 bg-white shadow-sm text-gray-600"
+            data-filter="image"
+          >
+            📷 Images
+          </button>
+          <button
+            class="filter-btn px-5 py-2 text-sm rounded-full border border-gray-300 bg-white shadow-sm text-gray-600"
+            data-filter="video"
+          >
+            🎬 Videos
+          </button>
+        </div>
+      </div>
+
+      <div id="loading" class="flex flex-col items-center justify-center py-24">
+        <div class="spinner"></div>
+        <p class="text-gray-500 text-sm mt-4">Loading gallery...</p>
+      </div>
+
+      <div id="galleryContainer" class="gallery-grid hidden"></div>
+
+      <div
+        id="error"
+        class="hidden text-center py-16 text-red-500 bg-red-50 rounded-2xl"
+      >
+        <p class="font-medium">⚠️ Could not load media manifest.</p>
+        <p class="text-sm mt-1">
+          Make sure media-list.json exists in the same folder.
+        </p>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <section
+      id="about"
+      class="bg-white py-16 md:py-20 border-t border-gray-100"
+    >
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <h3 class="text-2xl md:text-3xl font-light mb-4">
+          Crafted with purpose
+        </h3>
+        <p class="text-gray-500 max-w-2xl mx-auto leading-relaxed">
+          Kofac Global Ltd blends innovation with timeless aesthetics. Every
+          image and video in this gallery represents our dedication to visual
+          excellence, whether for commercial campaigns, editorial work, or brand
+          storytelling.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-12">
+          <div>
+            <span class="text-3xl font-light text-gray-800">10+</span>
+            <p class="text-sm text-gray-400">Years of experience</p>
+          </div>
+          <div>
+            <span class="text-3xl font-light text-gray-800">120+</span>
+            <p class="text-sm text-gray-400">Projects delivered</p>
+          </div>
+          <div>
+            <span class="text-3xl font-light text-gray-800">Global</span>
+            <p class="text-sm text-gray-400">Clients worldwide</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced Footer with more information -->
+    <footer id="contact" class="bg-gray-900 text-gray-300 pt-14 pb-8 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+          <!-- Company Info -->
+          <div>
+            <span class="text-white font-semibold text-xl tracking-wide"
+              >KOFAC GLOBAL LTD</span
+            >
+            <p class="text-sm text-gray-400 mt-3 leading-relaxed">
+              Creative production house delivering visual excellence worldwide.
+              Based in London & Nairobi.
+            </p>
+            <div class="flex gap-4 mt-4">
+              <a href="#" target="_blank" class="social-icon facebook"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" target="_blank" class="social-icon instagram"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="#" target="_blank" class="social-icon tiktok"
+                ><i class="fab fa-tiktok"></i
+              ></a>
+            </div>
+          </div>
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-white font-medium mb-3">Quick Links</h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <a href="#gallery" class="hover:text-white transition"
+                  >Portfolio</a
+                >
+              </li>
+              <li>
+                <a href="#about" class="hover:text-white transition"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Services</a>
+              </li>
+              <li>
+                <a href="#" class="hover:text-white transition">Careers</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Contact Info -->
+          <div>
+            <h4 class="text-white font-medium mb-3">Contact</h4>
+            <ul class="space-y-2 text-sm">
+              <li>
+                <i class="fas fa-envelope mr-2 text-gray-400"></i>
+                hello@kofacglobal.com
+              </li>
+              <li>
+                <i class="fas fa-phone-alt mr-2 text-gray-400"></i> +1 (555)
+                123-4567
+              </li>
+              <li>
+                <i class="fas fa-map-marker-alt mr-2 text-gray-400"></i> 123
+                Creative St, London UK
+              </li>
+            </ul>
+          </div>
+          <!-- Newsletter / Hours -->
+          <div>
+            <h4 class="text-white font-medium mb-3">Business Hours</h4>
+            <p class="text-sm">Mon - Fri: 9am – 6pm</p>
+            <p class="text-sm mt-1">Sat: 10am – 2pm</p>
+            <p class="text-sm mt-1">Sun: Closed</p>
+            <div class="mt-4">
+              <p class="text-xs text-gray-500">Subscribe for updates</p>
+              <div class="flex mt-1">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  class="px-3 py-1 text-sm rounded-l bg-gray-800 border-gray-700 text-white w-full"
+                />
+                <button
+                  class="bg-indigo-600 px-3 py-1 text-sm rounded-r hover:bg-indigo-700"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-800 mt-10 pt-6 text-center text-xs text-gray-500"
+        >
+          <p>
+            © 2026 Kofac Global Ltd. All rights reserved. | Designed with
+            <i class="fas fa-heart text-red-500"></i> for visual storytelling
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <div class="lightbox-close" onclick="closeLightbox()">×</div>
+      <div
+        id="lightboxContent"
+        class="lightbox-content"
+        onclick="event.stopPropagation()"
+      ></div>
+    </div>
+
+    <script>
+      const CLOUD_NAME = "diadx3thq";
+      const MANIFEST_URL = "./media-list.json";
+      let allMedia = [];
+      let carouselIndex = 0;
+      let carouselInterval;
+
+      // Cloudinary helpers
+      function getImageUrl(publicId, width = 1200) {
+        return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/w_${width},q_auto,f_auto/${publicId}`;
+      }
+      function getVideoUrl(publicId) {
+        return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/${publicId}`;
+      }
+      function getVideoThumbnail(publicId) {
+        return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/w_800,q_auto,f_auto,so_0/${publicId}.jpg`;
+      }
+
+      // Grid logic (same as before)
+      function getSpanClass(index) {
+        const patterns = [6, 4, 3, 3, 4, 6, 2, 5, 3, 4, 4, 3];
+        return `span-${patterns[index % patterns.length]}`;
+      }
+
+      function renderGallery(filter = "all") {
+        const container = document.getElementById("galleryContainer");
+        const filtered =
+          filter === "all"
+            ? allMedia
+            : allMedia.filter((m) => m.resource_type === filter);
+        if (!filtered.length) {
+          container.innerHTML = `<div class="col-span-full text-center text-gray-400 py-12">✨ No media found.</div>`;
+          return;
+        }
+        container.innerHTML = filtered
+          .map((item, idx) => {
+            const fileName = item.public_id.split("/").pop();
+            const name = fileName
+              .replace(/[-_]/g, " ")
+              .replace(/\.[^/.]+$/, "");
+            if (item.resource_type === "video") {
+              return `<div class="gallery-item ${getSpanClass(idx)}" onclick="openLightbox(${idx}, '${filter}')">
+            <div class="media"><img src="${getVideoThumbnail(item.public_id)}" loading="lazy"><div class="play-btn"><div>▶</div></div><div class="overlay"></div></div>
+            <div class="p-2 text-xs text-gray-500 truncate">${name}</div></div>`;
+            } else {
+              return `<div class="gallery-item ${getSpanClass(idx)}" onclick="openLightbox(${idx}, '${filter}')">
+            <div class="media"><img src="${getImageUrl(item.public_id, 800)}" loading="lazy"><div class="overlay"></div></div>
+            <div class="p-2 text-xs text-gray-500 truncate">${name}</div></div>`;
+            }
+          })
+          .join("");
+      }
+
+      // Carousel logic
+      function buildCarousel() {
+        const slidesDiv = document.getElementById("carouselSlides");
+        const dotsDiv = document.getElementById("carouselDots");
+        if (!allMedia.length) {
+          slidesDiv.innerHTML =
+            '<div class="text-center py-20 text-gray-400">No media to display</div>';
+          return;
+        }
+        slidesDiv.innerHTML = allMedia
+          .map((item, i) => {
+            const content =
+              item.resource_type === "video"
+                ? `<video muted><source src="${getVideoUrl(item.public_id)}" type="video/mp4"></video>`
+                : `<img src="${getImageUrl(item.public_id, 1200)}" alt="slide">`;
+            return `<div class="carousel-slide ${i === 0 ? "active" : ""}" data-index="${i}">
+                  ${content}
+                </div>`;
+          })
+          .join("");
+        dotsDiv.innerHTML = allMedia
+          .map(
+            (_, i) =>
+              `<div class="carousel-dot ${i === 0 ? "active" : ""}" data-index="${i}"></div>`,
+          )
+          .join("");
+
+        // Attach dot click events
+        document.querySelectorAll(".carousel-dot").forEach((dot) => {
+          dot.addEventListener("click", () => {
+            const idx = parseInt(dot.dataset.index);
+            setCarouselSlide(idx);
+          });
+        });
+        // Auto-play (optional)
+        if (carouselInterval) clearInterval(carouselInterval);
+        carouselInterval = setInterval(() => {
+          let next = (carouselIndex + 1) % allMedia.length;
+          setCarouselSlide(next);
+        }, 5000);
+      }
+
+      function setCarouselSlide(index) {
+        const slides = document.querySelectorAll(".carousel-slide");
+        const dots = document.querySelectorAll(".carousel-dot");
+        if (!slides.length) return;
+        slides.forEach((slide) => slide.classList.remove("active"));
+        dots.forEach((dot) => dot.classList.remove("active"));
+        slides[index].classList.add("active");
+        dots[index].classList.add("active");
+        carouselIndex = index;
+        // Pause video if any? Not needed for images.
+      }
+
+      function nextSlide() {
+        setCarouselSlide((carouselIndex + 1) % allMedia.length);
+      }
+      function prevSlide() {
+        setCarouselSlide(
+          (carouselIndex - 1 + allMedia.length) % allMedia.length,
+        );
+      }
+
+      // Lightbox (same as before, but works with filtered gallery)
+      function openLightbox(index, filter) {
+        const filtered =
+          filter === "all"
+            ? allMedia
+            : allMedia.filter((m) => m.resource_type === filter);
+        const item = filtered[index];
+        const contentDiv = document.getElementById("lightboxContent");
+        if (item.resource_type === "video") {
+          contentDiv.innerHTML = `<video controls autoplay class="max-h-[85vh] w-auto max-w-full rounded-xl"><source src="${getVideoUrl(item.public_id)}" type="video/mp4" /></video>`;
+        } else {
+          contentDiv.innerHTML = `<img src="${getImageUrl(item.public_id, 1600)}" class="max-h-[85vh] w-auto max-w-full rounded-xl" />`;
+        }
+        document.getElementById("lightbox").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        document.getElementById("lightbox").classList.remove("open");
+        document.getElementById("lightboxContent").innerHTML = "";
+        document.body.style.overflow = "";
+      }
+
+      // Event listeners
+      document.addEventListener(
+        "keydown",
+        (e) => e.key === "Escape" && closeLightbox(),
+      );
+      document.getElementById("filters").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-filter]");
+        if (!btn) return;
+        document
+          .querySelectorAll(".filter-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderGallery(btn.dataset.filter);
+      });
+      document
+        .getElementById("carouselPrev")
+        ?.addEventListener("click", prevSlide);
+      document
+        .getElementById("carouselNext")
+        ?.addEventListener("click", nextSlide);
+
+      // Fetch data
+      (async () => {
+        const loadingDiv = document.getElementById("loading");
+        const galleryDiv = document.getElementById("galleryContainer");
+        const errorDiv = document.getElementById("error");
+        try {
+          const res = await fetch(MANIFEST_URL);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          allMedia = await res.json();
+          loadingDiv.classList.add("hidden");
+          if (!allMedia.length) throw new Error("Empty manifest");
+          document.getElementById("media-count").textContent = allMedia.length;
+          galleryDiv.classList.remove("hidden");
+          renderGallery("all");
+          buildCarousel(); // initialise carousel after data loads
+        } catch (err) {
+          loadingDiv.classList.add("hidden");
+          errorDiv.classList.remove("hidden");
+          console.error(err);
+        }
+      })();
+    </script>
+  </body>
+</html>
