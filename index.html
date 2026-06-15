@@ -102,7 +102,7 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: brightness(0.8) saturate(1.05); /* lighter than before */
+        filter: brightness(0.8) saturate(1.05);
         transform: scale(1.02);
       }
       .hero-grad {
@@ -112,7 +112,7 @@
           radial-gradient(
             70% 60% at 80% 30%,
             rgba(255, 91, 46, 0.08),
-            /* reduced opacity */ transparent 60%
+            transparent 60%
           ),
           linear-gradient(
             to bottom,
@@ -852,6 +852,7 @@
 
       function renderGallery(filter = "all") {
         const container = document.getElementById("galleryGrid");
+        if (!container) return;
         let filtered = allMedia;
         if (filter !== "all") {
           filtered = allMedia.filter((m) => m.resource_type === filter);
@@ -897,15 +898,22 @@
           })
           .join("");
 
+        // Re-attach lightbox listeners
         document.querySelectorAll(".g-item").forEach((el) => {
-          el.addEventListener("click", () => {
-            const src = el.dataset.src;
-            lbImg.src = src;
-            lb.classList.add("open");
-          });
+          el.removeEventListener("click", lightboxClickHandler);
+          el.addEventListener("click", lightboxClickHandler);
         });
       }
 
+      function lightboxClickHandler(e) {
+        const src = this.dataset.src;
+        if (src) {
+          lbImg.src = src;
+          lb.classList.add("open");
+        }
+      }
+
+      // Lightbox handlers
       const lb = document.getElementById("lb");
       const lbImg = document.getElementById("lbImg");
       document
@@ -918,6 +926,7 @@
         if (e.key === "Escape") lb.classList.remove("open");
       });
 
+      // Filter listeners
       document.getElementById("filterGroup").addEventListener("click", (e) => {
         const chip = e.target.closest(".chip");
         if (!chip) return;
@@ -929,23 +938,35 @@
         renderGallery(currentFilter);
       });
 
+      // Fetch manifest with cache busting
       (async () => {
+        const loadingDiv = document.getElementById("loading");
+        const galleryDiv = document.getElementById("galleryGrid");
+        const errorDiv = document.getElementById("error");
         try {
-          const res = await fetch(MANIFEST_URL);
-          if (!res.ok) throw new Error("manifest not found");
+          // Add timestamp to avoid caching issues
+          const url = MANIFEST_URL + "?t=" + Date.now();
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
           allMedia = await res.json();
+          if (!allMedia.length) throw new Error("Empty manifest");
           renderGallery("all");
+          // Hide loading if any (no loading indicator exists, but we can still ensure gallery is visible)
+          if (galleryDiv) galleryDiv.classList.remove("hidden");
         } catch (err) {
-          document.getElementById("galleryGrid").innerHTML =
-            `<div class="col-span-full text-center text-red-400 py-20">⚠️ Could not load media-list.json. Please ensure it exists.</div>`;
+          console.error("Gallery load error:", err);
+          if (galleryDiv) {
+            galleryDiv.innerHTML = `<div class="col-span-full text-center text-red-400 py-20">⚠️ Could not load media-list.json. Please ensure it exists and is valid JSON.</div>`;
+          }
         }
       })();
 
+      // Scroll reveal observer
       const io = new IntersectionObserver(
         (entries) =>
-          entries.forEach(
-            (e) => e.isIntersecting && e.target.classList.add("in"),
-          ),
+          entries.forEach((e) => {
+            if (e.isIntersecting) e.target.classList.add("in");
+          }),
         { threshold: 0.12 },
       );
       document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
